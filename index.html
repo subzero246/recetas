@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Blog Culinario</title>
+    <link rel="icon" href="apple-icon-57x57.png" type="image/png">
+    <style>
+:root {
+    --rojo-tomate: #e74c3c;
+    --verde-albahaca: #27ae60;
+    --naranja-zanahoria: #e67e22;
+    --amarillo-maiz: #f1c40f;
+    --marron-chocolate: #8b4513;
+    --blanco-hueso: #fdf6e3;
+    --gris-claro: #ecf0f1;
+    --gris-oscuro: #2c3e50;
+    
+    /* Variables para modo oscuro */
+    --bg-color: var(--blanco-hueso);
+    --text-color: #333;
+    --card-bg: white;
+    --header-bg: white;
+    --footer-bg: var(--gris-oscuro);
+    --section-bg: var(--gris-claro);
+}
+
+/* Modo oscuro */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --header-bg: #1a1a1a;
+    --footer-bg: #0d0d0d;
+    --section-bg: #2a2a2a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== HEADER Y NAVEGACIÓN ===== */
+.header {
+    background: var(--header-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 20px;
+}
+
+.logo h1 {
+    color: var(--rojo-tomate);
+    font-size: 1.8rem;
+}
+
+.logo p {
+    color: var(--gris-oscuro);
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+body.dark-mode .logo p {
+    color: #bbb;
+}
+
+.menu-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.menu-list a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.menu-list a:hover {
+    color: var(--rojo-tomate);
+}
+
+.menu-list a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--rojo-tomate);
+    transition: all 0.3s ease;
+}
+
+.menu-list a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.theme-toggle {
+    background: var(--naranja-zanahoria);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.theme-toggle:hover {
+    background: var(--rojo-tomate);
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    animation: fadeIn 1s ease-in;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: slideIn 1s ease-out;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    animation: slideIn 1s ease-out 0.2s both;
+}
+
+.cta-button {
+    background: var(--naranja-zanahoria);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: slideIn 1s ease-out 0.4s both;
+}
+
+.cta-button:hover {
+    background: var(--rojo-tomate);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* ===== RECETAS DESTACADAS ===== */
+.featured-recipes {
+    padding: 4rem 0;
+    background: var(--section-bg);
+    transition: background-color 0.3s;
+}
+
+.featured-recipes h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--gris-oscuro);
+    transition: color 0.3s;
+}
+
+body.dark-mode .featured-recipes h2 {
+    color: #ddd;
+}
+
+.recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 20px;
+}
+
+.recipe-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    animation: slideIn 0.6s ease-out;
+}
+
+.recipe-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.recipe-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.recipe-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.recipe-card:hover .recipe-image img {
+    transform: scale(1.1);
+}
+
+.recipe-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--verde-albahaca);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.recipe-content {
+    padding: 1.5rem;
+}
+
+.recipe-content h3 {
+    color: var(--gris-oscuro);
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+    transition: color 0.3s;
+}
+
+body.dark-mode .recipe-content h3 {
+    color: #ddd;
+}
+
+.recipe-content p {
+    color: #666;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    transition: color 0.3s;
+}
+
+body.dark-mode .recipe-content p {
+    color: #aaa;
+}
+
+.recipe-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #777;
+    transition: color 0.3s;
+}
+
+body.dark-mode .recipe-meta {
+    color: #888;
+}
+
+.recipe-button {
+    display: inline-block;
+    background: var(--rojo-tomate);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.recipe-button:hover {
+    background: var(--naranja-zanahoria);
+    transform: scale(1.05);
+}
+
+/* ===== CATEGORÍAS ===== */
+.categories {
+    padding: 4rem 0;
+}
+
+.categories h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--gris-oscuro);
+    transition: color 0.3s;
+}
+
+body.dark-mode .categories h2 {
+    color: #ddd;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 0 20px;
+}
+
+.category-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.category-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.category-card h3 {
+    color: var(--gris-oscuro);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+}
+
+body.dark-mode .category-card h3 {
+    color: #ddd;
+}
+
+.category-card p {
+    color: #777;
+    transition: color 0.3s;
+}
+
+body.dark-mode .category-card p {
+    color: #aaa;
+}
+
+/* ===== SOBRE MÍ ===== */
+.about {
+    padding: 4rem 0;
+    background: var(--section-bg);
+    transition: background-color 0.3s;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--gris-oscuro);
+    transition: color 0.3s;
+}
+
+body.dark-mode .about-text h2 {
+    color: #ddd;
+}
+
+.about-text p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.social-links {
+    margin-top: 2rem;
+}
+
+.social-links a {
+    display: inline-block;
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--rojo-tomate);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--naranja-zanahoria);
+    transform: translateY(-2px);
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* ===== NEWSLETTER ===== */
+.newsletter {
+    background: var(--marron-chocolate);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.newsletter h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.newsletter p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+}
+
+.newsletter-form button {
+    background: var(--amarillo-maiz);
+    color: var(--gris-oscuro);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background: var(--naranja-zanahoria);
+    transform: scale(1.05);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: var(--footer-bg);
+    color: white;
+    padding: 3rem 0 1rem;
+    transition: background-color 0.3s;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    margin-bottom: 1rem;
+    color: var(--amarillo-maiz);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--amarillo-maiz);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #444;
+    color: #ccc;
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .menu-list {
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .recipes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 50vh;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .featured-recipes h2,
+    .categories h2,
+    .about-text h2,
+    .newsletter h2 {
+        font-size: 2rem;
+    }
+    
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>🍳 Mi Blog Culinario</h1>
+                <p>Recetas caseras con amor</p>
+            </div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#recetas">Recetas</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                    <li><a href="#sobre-mi">Sobre Mí</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle">🌙</button>
+        </div>
+    </header>
+    
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Descubre el Arte de la Cocina</h1>
+            <p>Recetas tradicionales mexicanas, técnicas modernas y sabores increíbles</p>
+            <button class="cta-button">Explorar Recetas</button>
+        </div>
+    </section>
+    
+    <section class="featured-recipes" id="recetas">
+        <h2>🍽 Recetas Destacadas</h2>
+        <div class="recipes-grid">
+            
+            <!-- Receta 1 - Lasaña -->
+            <article class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Lasaña tradicional italiana">
+                    <span class="recipe-badge">Popular</span>
+                </div>
+                <div class="recipe-content">
+                    <h3>Lasaña de la Abuela</h3>
+                    <p>Una receta tradicional italiana con capas de pasta, carne y bechamel.</p>
+                    <div class="recipe-meta">
+                        <span>⏱ 90 min</span>
+                        <span>📊 Media</span>
+                        <span>👥 6 personas</span>
+                    </div>
+                    <a href="receta-lasagna.html" class="recipe-button">Ver Receta</a>
+                </div>
+            </article>
+
+            <!-- Receta 2 - Guacamole -->
+            <article class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1562059392-09646d3b7c1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Guacamole mexicano">
+                    <span class="recipe-badge">Picante</span>
+                </div>
+                <div class="recipe-content">
+                    <h3>Guacamole Mexicano</h3>
+                    <p>Auténtico guacamole con aguacates maduros y un toque de chile.</p>
+                    <div class="recipe-meta">
+                        <span>⏱ 15 min</span>
+                        <span>📊 Fácil</span>
+                        <span>👥 4 personas</span>
+                    </div>
+                    <a href="receta-guacamole.html" class="recipe-button">Ver Receta</a>
+                </div>
+            </article>
+
+            <!-- Receta 3 - Sushi -->
+            <article class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Sushi casero">
+                    <span class="recipe-badge">Saludable</span>
+                </div>
+                <div class="recipe-content">
+                    <h3>Sushi Casero</h3>
+                    <p>Aprende a preparar sushi perfecto en casa con ingredientes frescos.</p>
+                    <div class="recipe-meta">
+                        <span>⏱ 60 min</span>
+                        <span>📊 Difícil</span>
+                        <span>👥 2 personas</span>
+                    </div>
+                    <a href="receta-sushi.html" class="recipe-button">Ver Receta</a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+    
+    <section class="categories" id="categorias">
+        <h2>📂 Categorías</h2>
+        <div class="categories-grid">
+            <div class="category-card">
+                <span class="category-icon">🍝</span>
+                <h3>Pastas</h3>
+                <p>12 recetas</p>
+            </div>
+            <div class="category-card">
+                <span class="category-icon">🍰</span>
+                <h3>Postres</h3>
+                <p>8 recetas</p>
+            </div>
+            <div class="category-card">
+                <span class="category-icon">🥗</span>
+                <h3>Ensaladas</h3>
+                <p>6 recetas</p>
+            </div>
+            <div class="category-card">
+                <span class="category-icon">🍹</span>
+                <h3>Bebidas</h3>
+                <p>5 recetas</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about" id="sobre-mi">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>👨‍🍳 Sobre Mí</h2>
+                <p>¡Hola! Soy Emanuel Vena Lopez, un apasionado de la cocina desde que tengo memoria. Crecí viendo a mi abuela preparar platillos increíbles y ahora quiero compartir ese conocimiento contigo.</p>
+                <p>Mi misión es demostrar que cocinar puede ser divertido, creativo y accesible para todos.</p>
+                <div class="social-links">
+                    <a href="#">📷 Instagram</a>
+                    <a href="#">👥 Facebook</a>
+                    <a href="#">🐦 Twitter</a>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Cocinero">
+            </div>
+        </div>
+    </section>
+    
+    <section class="newsletter">
+        <h2>📧 Suscríbete a mi Newsletter</h2>
+        <p>Recibe recetas exclusivas y consejos de cocina directamente en tu correo</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Tu correo electrónico" required>
+            <button type="submit">Suscribirse</button>
+        </form>
+    </section>
+
+    <footer class="footer" id="contacto">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🍳 Mi Blog Culinario</h3>
+                <p>Compartiendo recetas desde 2024</p>
+            </div>
+            <div class="footer-section">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#recetas">Recetas</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                    <li><a href="#sobre-mi">Sobre Mí</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <p>✉ contacto@miblogculinario.com</p>
+                <p>📞 +52 123 456 7890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Mi Blog Culinario. Creado por Emanuel.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Cargar el modo guardado en localStorage al inicio
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = '☀';
+        } else {
+            themeToggle.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            // Alternar la clase dark-mode en el body
+            body.classList.toggle('dark-mode');
+
+            // Cambiar el icono del botón
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.textContent = '☀';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.textContent = '🌙';
+            }
+        });
+    </script>
+</body>
+</html>
